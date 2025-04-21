@@ -1,39 +1,93 @@
-<!DOCTYPE HTML>
-<!--
-	Massively by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Dhimitër Gëro Profile</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat Assistant</title>
 
-		<!-- Wrapper -->
-			<div id="wrapper" class="fade-in">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-				<!-- Intro -->
-					<div id="intro">
-						<h1>Dhimitër Gëro<br />
-						Digital Profile</h1>
-						<p>Financial Consultant | Digital Transformation Enthusiast | Python and Tableau Learner</p>
-						<ul class="actions">
-							<li><a href="#nav" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li>
-						</ul>
-					</div>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-			<script type="module">
-    			import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
-    			Chatbot.initFull({
-        		chatflowid: "ed94f24c-b110-454f-a2c3-ba48d13a38bc",
-        		apiHost: "https://flowise-dipi.onrender.com",
-    			})
-			</script>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e1e2f, #2c2c3a);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            overflow: hidden;
+        }
 
-	</body>
+        .chat-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #ffffffcc;
+            letter-spacing: 1px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        flowise-fullchatbot {
+            width: 100%;
+            display: block;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 10px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #888;
+            width: 100%;
+        }
+
+        a {
+            color: #79ffe1;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <h1>💬 AI Chat Assistant</h1>
+        <flowise-fullchatbot></flowise-fullchatbot>
+    </div>
+
+    <footer>
+        Powered by <a href="https://flowiseai.com" target="_blank">Flowise</a>
+    </footer>
+
+    <script type="module">
+        import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
+        Chatbot.initFull({
+            chatflowid: "ed94f24c-b110-454f-a2c3-ba48d13a38bc",
+            apiHost: "https://flowise-dipi.onrender.com",
+        })
+    </script>
+</body>
 </html>
