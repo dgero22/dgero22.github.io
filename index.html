@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AI Chat Assistant</title>
 
-  <!-- Apple System Font Stack -->
   <style>
     :root {
       --text-light: rgba(255, 255, 255, 0.85);
@@ -18,13 +17,16 @@
       box-sizing: border-box;
     }
 
+    html, body {
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
+      flex-direction: column;
       background: linear-gradient(145deg, #f0f0f3, #dcdde1);
       transition: background 0.6s ease, color 0.3s ease;
     }
@@ -47,19 +49,30 @@
       100% { background-position: 0% 50%; }
     }
 
+    .page-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+      padding: 2rem 1rem;
+    }
+
     .chat-container {
       background: rgba(255, 255, 255, 0.6);
       border-radius: 24px;
       padding: 2.5rem 2rem;
-      width: 90%;
+      width: 100%;
       max-width: 640px;
+      margin: 0 auto;
       box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
       backdrop-filter: blur(20px) saturate(120%);
       -webkit-backdrop-filter: blur(20px) saturate(120%);
       border: 1px solid rgba(255, 255, 255, 0.2);
       animation: fadeInUp 1.2s ease-out;
       position: relative;
-      z-index: 1;
     }
 
     h1 {
@@ -97,13 +110,12 @@
     }
 
     footer {
-      position: absolute;
-      bottom: 16px;
       width: 100%;
       text-align: center;
       font-size: 0.85rem;
       color: #666;
-      z-index: 2;
+      margin-top: 2rem;
+      padding-bottom: 1rem;
     }
 
     a {
@@ -127,7 +139,7 @@
       }
     }
 
-    /* Light/Dark toggle themes (optional if you want later) */
+    /* Dark mode support */
     body.dark {
       background: linear-gradient(135deg, #1e1e2f, #2c2c3a);
       color: var(--text-light);
@@ -157,10 +169,16 @@
 
   <div class="animated-bg"></div>
 
-  <div class="chat-container">
-    <button class="toggle-btn" onclick="toggleTheme()">🌙</button>
-    <h1>💬 AI Chat Assistant</h1>
-    <flowise-fullchatbot></flowise-fullchatbot>
+  <div class="page-wrapper">
+    <main class="chat-container">
+      <button class="toggle-btn" onclick="toggleTheme()">🌙</button>
+      <h1>💬 AI Chat Assistant</h1>
+      <flowise-fullchatbot></flowise-fullchatbot>
+    </main>
+
+    <footer>
+      Inspired by Apple design | <a href="https://github.com/your-username">View Source</a>
+    </footer>
   </div>
 
   <script type="module">
