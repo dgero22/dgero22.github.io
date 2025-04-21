@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Procurement Assistant</title>
+  <title>RAG - Public Procurement Law in Albania</title>
 
   <style>
     :root {
-      --text-light: rgba(255, 255, 255, 0.85);
-      --text-dark: #1e1e1e;
+      --color-bg-light: #f5f5f7;
+      --color-text-light: #1d1d1f;
+      --color-accent: #007aff;
     }
 
     * {
@@ -17,71 +18,33 @@
       box-sizing: border-box;
     }
 
-    html, body {
-      overflow-x: hidden;
-      overflow-y: auto;
-    }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--color-bg-light);
+      color: var(--color-text-light);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: linear-gradient(145deg, #f0f0f3, #dcdde1);
-      transition: background 0.6s ease, color 0.3s ease;
-    }
-
-    .animated-bg {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(130deg, #e3e3ec, #d4d7e2, #e0e4ef, #f1f3f8);
-      background-size: 400% 400%;
-      animation: gradientShift 20s ease infinite;
-      z-index: -2;
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .page-wrapper {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 100vh;
-      position: relative;
-      z-index: 1;
       padding: 2rem 1rem;
-    }
-
-    .chat-container {
-      background: rgba(255, 255, 255, 0.6);
-      border-radius: 24px;
-      padding: 2.5rem 2rem;
-      width: 100%;
-      max-width: 640px;
-      margin: 0 auto;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(20px) saturate(120%);
-      -webkit-backdrop-filter: blur(20px) saturate(120%);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      animation: fadeInUp 1.2s ease-out;
-      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
     }
 
     h1 {
-      text-align: center;
-      font-size: 1.9rem;
+      font-size: 1.75rem;
       font-weight: 600;
-      color: #1d1d1f;
-      margin-bottom: 1.5rem;
-      letter-spacing: -0.3px;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .chat-container {
+      width: 100%;
+      max-width: 700px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+      padding: 2rem;
+      margin-top: 1rem;
     }
 
     flowise-fullchatbot {
@@ -89,109 +52,81 @@
       display: block;
     }
 
-    .toggle-btn {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: rgba(0, 0, 0, 0.05);
-      border: none;
-      padding: 8px 14px;
-      border-radius: 14px;
-      color: #333;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-      backdrop-filter: blur(8px);
-    }
-
-    .toggle-btn:hover {
-      background: rgba(0, 0, 0, 0.08);
-    }
-
-    footer {
-      width: 100%;
-      text-align: center;
-      font-size: 0.85rem;
-      color: #666;
+    .dropdown {
       margin-top: 2rem;
-      padding-bottom: 1rem;
+      text-align: center;
     }
 
-    a {
-      color: #007aff;
-      text-decoration: none;
-      transition: color 0.2s ease;
+    .dropdown-btn {
+      background: var(--color-accent);
+      color: white;
+      border: none;
+      padding: 0.7rem 1.2rem;
+      font-size: 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
     }
 
-    a:hover {
-      color: #005ecb;
+    .dropdown-btn:hover {
+      background: #005ecb;
     }
 
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .dropdown-content {
+      display: none;
+      margin-top: 1rem;
+      background: #fff;
+      padding: 1rem 1.2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+      line-height: 1.5;
     }
 
-    /* Dark mode support */
-    body.dark {
-      background: linear-gradient(135deg, #1e1e2f, #2c2c3a);
-      color: var(--text-light);
-    }
-
-    body.dark .chat-container {
-      background: rgba(30, 30, 30, 0.6);
-      color: var(--text-light);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    body.dark h1 {
-      color: #f4f4f4;
-    }
-
-    body.dark .toggle-btn {
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-    }
-
-    body.dark footer {
-      color: #aaa;
+    .dropdown-content ul {
+      list-style-type: disc;
+      margin-left: 1.5rem;
     }
   </style>
 </head>
 <body>
 
-  <div class="animated-bg"></div>
+  <h1>RAG Public Procurement Law in Albania</h1>
 
-  <div class="page-wrapper">
-    <main class="chat-container">
-      <button class="toggle-btn" onclick="toggleTheme()">🌙</button>
-      <h1>💬 AI Procurement Assistant</h1>
-    </main>
-
-    <footer>
-      Inspired by Apple design | <a href="https://github.com/dgero22">View Source</a>
-    </footer>
+  <div class="chat-container">
+    <flowise-fullchatbot></flowise-fullchatbot>
   </div>
-<flowise-fullchatbot></flowise-fullchatbot>
-<script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
-    Chatbot.init({
-        chatflowid: "dac784bc-0b17-47f6-b263-9a2ec98ad1ad",
-        apiHost: "https://dhgero-app.hf.space",
-    })
-</script>
+
+  <div class="dropdown">
+    <button class="dropdown-btn" onclick="toggleDocs()">📄 View Training Documents</button>
+    <div class="dropdown-content" id="docs-list">
+      <p>This RAG model is trained on the following key legal documents:</p>
+      <ul>
+        <li>Law No. 9643, Date 20.11.2006 "On Public Procurement"</li>
+        <li>All amendments through 2023</li>
+        <li>Regulatory decisions by the Public Procurement Commission</li>
+        <li>Standard bidding documents issued by APP</li>
+        <li>European Commission progress reports</li>
+      </ul>
+    </div>
+  </div>
 
   <script>
-    function toggleTheme() {
-      document.body.classList.toggle("dark");
+    function toggleDocs() {
+      const content = document.getElementById("docs-list");
+      content.style.display = content.style.display === "block" ? "none" : "block";
     }
+  </script>
+
+  <script type="module">
+    import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
+    Chatbot.init({
+      chatflowid: "dac784bc-0b17-47f6-b263-9a2ec98ad1ad",
+      apiHost: "https://dhgero-app.hf.space",
+    })
   </script>
 
 </body>
