@@ -1,133 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RAG - Public Procurement Law in Albania</title>
-
-  <style>
-    :root {
-      --color-bg-light: #f5f5f7;
-      --color-text-light: #1d1d1f;
-      --color-accent: #007aff;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: var(--color-bg-light);
-      color: var(--color-text-light);
-      min-height: 100vh;
-      padding: 2rem 1rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-    }
-
-    h1 {
-      font-size: 1.75rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-
-    .chat-container {
-      width: 100%;
-      max-width: 700px;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-      padding: 2rem;
-      margin-top: 1rem;
-    }
-
-    flowise-fullchatbot {
-      width: 100%;
-      display: block;
-    }
-
-    .dropdown {
-      margin-top: 2rem;
-      text-align: center;
-    }
-
-    .dropdown-btn {
-      background: var(--color-accent);
-      color: white;
-      border: none;
-      padding: 0.7rem 1.2rem;
-      font-size: 1rem;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .dropdown-btn:hover {
-      background: #005ecb;
-    }
-
-    .dropdown-content {
-      display: none;
-      margin-top: 1rem;
-      background: #fff;
-      padding: 1rem 1.2rem;
-      border-radius: 12px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      text-align: left;
-      line-height: 1.5;
-    }
-
-    .dropdown-content ul {
-      list-style-type: disc;
-      margin-left: 1.5rem;
-    }
-  </style>
-</head>
-<body>
-
-  <h1>RAG Public Procurement Law in Albania</h1>
-
-  <div class="chat-container">
-    <flowise-fullchatbot></flowise-fullchatbot>
-  </div>
-
-  <div class="dropdown">
-    <button class="dropdown-btn" onclick="toggleDocs()">📄 View Training Documents</button>
-    <div class="dropdown-content" id="docs-list">
-      <p>This RAG model is trained on the following key legal documents:</p>
-      <ul>
-        <li>Law No. 9643, Date 20.11.2006 "On Public Procurement"</li>
-        <li>All amendments through 2023</li>
-        <li>Regulatory decisions by the Public Procurement Commission</li>
-        <li>Standard bidding documents issued by APP</li>
-        <li>European Commission progress reports</li>
-      </ul>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RAG in Public Procurement in Albania</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      .container {
+        display: flex;
+        min-height: 100vh;
+        position: relative;
+      }
+      .panel {
+        width: 300px;
+        background: #f3f4f6;
+        padding: 20px;
+        border-right: 1px solid #e5e7eb;
+        transition: transform 0.3s ease;
+      }
+      .panel.collapsed {
+        transform: translateX(-100%);
+      }
+      .panel-toggle {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+        padding: 8px 12px;
+        background: #f3f4f6;
+        border: 1px solid #e5e7eb;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        z-index: 10;
+      }
+      .panel-toggle.panel-open {
+        transform: translateX(300px);
+      }
+      .main-content {
+        flex: 1;
+        padding: 20px;
+        padding-left: 60px;
+      }
+      select {
+        width: 100%;
+        padding: 8px;
+        margin-top: 10px;
+        border: 1px solid #e5e7eb;
+        border-radius: 4px;
+      }
+    </style>
+    <script type="module">
+      import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
+      Chatbot.init({
+          chatflowid: "dac784bc-0b17-47f6-b263-9a2ec98ad1ad",
+          apiHost: "https://dhgero-app.hf.space",
+      })
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div id="panel" class="panel">
+        <h2>Documents</h2>
+        <select id="documentSelect">
+          <option value="">Select a document</option>
+          <option value="doc1">Document 1</option>
+          <option value="doc2">Document 2</option>
+          <option value="doc3">Document 3</option>
+        </select>
+      </div>
+      <button id="panelToggle" class="panel-toggle panel-open">☰</button>
+      <div class="main-content">
+        <h1>RAG in Public Procurement in Albania</h1>
+        <p>An AI-powered assistant for exploring public procurement documents</p>
+      </div>
     </div>
-  </div>
 
-  <script>
-    function toggleDocs() {
-      const content = document.getElementById("docs-list");
-      content.style.display = content.style.display === "block" ? "none" : "block";
-    }
-  </script>
-
-  <script type="module">
-    import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
-    Chatbot.init({
-      chatflowid: "dac784bc-0b17-47f6-b263-9a2ec98ad1ad",
-      apiHost: "https://dhgero-app.hf.space",
-    })
-  </script>
-
-</body>
+    <script>
+      const panel = document.getElementById('panel');
+      const toggle = document.getElementById('panelToggle');
+      
+      toggle.addEventListener('click', () => {
+        panel.classList.toggle('collapsed');
+        toggle.classList.toggle('panel-open');
+      });
+    </script>
+  </body>
 </html>
