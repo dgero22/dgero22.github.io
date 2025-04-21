@@ -1,89 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chat Assistant</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Chat Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient-dark: linear-gradient(135deg, #1e1e2f, #2c2c3a);
+      --bg-gradient-light: linear-gradient(135deg, #f1f1f1, #dcdcdc);
+      --text-light: #ffffffcc;
+      --text-dark: #1e1e2f;
+    }
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #1e1e2f, #2c2c3a);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-            overflow: hidden;
-        }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-gradient-dark);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text-light);
+      transition: background 0.6s ease, color 0.3s ease;
+      overflow: hidden;
+    }
 
-        .chat-container {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 30px;
-            width: 90%;
-            max-width: 600px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            animation: fadeIn 1.2s ease-in-out;
-        }
+    .chat-container {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 650px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(14px);
+      animation: slideFadeIn 1.2s ease-in-out;
+      position: relative;
+    }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: 600;
-            color: #ffffffcc;
-            letter-spacing: 1px;
-        }
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      color: var(--text-light);
+      font-size: 1.75rem;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    flowise-fullchatbot {
+      width: 100%;
+      display: block;
+    }
 
-        flowise-fullchatbot {
-            width: 100%;
-            display: block;
-        }
+    footer {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
 
-        footer {
-            position: absolute;
-            bottom: 10px;
-            text-align: center;
-            font-size: 0.85rem;
-            color: #888;
-            width: 100%;
-        }
+    a {
+      color: #80ffe4;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
 
-        a {
-            color: #79ffe1;
-            text-decoration: none;
-        }
-    </style>
+    a:hover {
+      color: #c0fff5;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      padding: 0.4rem 0.75rem;
+      border-radius: 12px;
+      color: inherit;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-size: 0.85rem;
+    }
+
+    .toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    @keyframes slideFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Light theme toggle */
+    body.light {
+      background: var(--bg-gradient-light);
+      color: var(--text-dark);
+    }
+
+    body.light .chat-container {
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      color: var(--text-dark);
+    }
+
+    body.light h1 {
+      color: var(--text-dark);
+    }
+
+    body.light footer {
+      color: #555;
+    }
+
+    body.light .toggle-btn {
+      background: rgba(0, 0, 0, 0.08);
+      color: var(--text-dark);
+    }
+
+    body.light .toggle-btn:hover {
+      background: rgba(0, 0, 0, 0.15);
+    }
+  </style>
 </head>
 <body>
 
-    <div class="chat-container">
-        <h1>💬 AI Chat Assistant</h1>
-        <flowise-fullchatbot></flowise-fullchatbot>
-    </div>
+  <div class="chat-container">
+    <button class="toggle-btn" onclick="toggleTheme()">🌗 Theme</button>
+    <h1>💬 AI Chat Assistant</h1>
+    <flowise-fullchatbot></flowise-fullchatbot>
+  </div>
 
-    <script type="module">
-        import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
-        Chatbot.initFull({
-            chatflowid: "ed94f24c-b110-454f-a2c3-ba48d13a38bc",
-            apiHost: "https://flowise-dipi.onrender.com",
-        })
-    </script>
+  <footer>
+    Built with ❤️ | <a href="https://github.com/your-username">View Source on GitHub</a>
+  </footer>
+
+  <script type="module">
+    import Chatbot from "https://cdn.jsdelivr.net/npm/flowise-embed/dist/web.js"
+    Chatbot.initFull({
+      chatflowid: "ed94f24c-b110-454f-a2c3-ba48d13a38bc",
+      apiHost: "https://flowise-dipi.onrender.com",
+    })
+  </script>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle("light");
+    }
+  </script>
+
 </body>
 </html>
